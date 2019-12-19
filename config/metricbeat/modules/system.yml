@@ -1,0 +1,20 @@
+- module: system
+  period: 1m
+  metricsets:
+    - filesystem
+    - fsstat
+    - cpu
+    - load
+    - memory
+    - network
+    - process
+    - process_summary
+    - uptime
+    - socket_summary
+  processes:
+    - .*
+  processors:
+    drop_event:
+      when:
+        regexp:
+          system.filesystem.mount_point: ^/(sys|cgroup|proc|dev|etc|host|lib)($|/)

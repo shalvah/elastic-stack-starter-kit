@@ -1,0 +1,81 @@
+version: '3.7'
+services:
+  elasticsearch:
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.5.0'
+    ports:
+      - '9200:9200'
+    environment:
+      ELASTICSEARCH_URL: 'http://elasticsearch:9200'
+      ELASTICSEARCH_USERNAME: ''
+      ELASTICSEARCH_PASSWORD: ''
+      KIBANA_URL: 'http://kibana:5601'
+      discovery.type: single-node
+    volumes:
+      - type: bind
+        source: ./config/elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+      - './data/elasticsearch:/usr/share/elasticsearch/data'
+  kibana:
+    image: 'docker.elastic.co/kibana/kibana:7.5.0'
+    ports:
+      - '5601:5601'
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: 'http://elasticsearch:9200'
+      ELASTICSEARCH_USERNAME: ''
+      ELASTICSEARCH_PASSWORD: ''
+      KIBANA_URL: 'http://kibana:5601'
+    volumes:
+      - type: bind
+        source: ./config/kibana/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+  filebeat:
+    image: 'docker.elastic.co/beats/filebeat:7.5.0'
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: 'http://elasticsearch:9200'
+      ELASTICSEARCH_USERNAME: ''
+      ELASTICSEARCH_PASSWORD: ''
+      KIBANA_URL: 'http://kibana:5601'
+    volumes:
+      - type: bind
+        source: ./config/filebeat/filebeat.yml
+        target: /usr/share/filebeat/filebeat.yml
+      - '/var/lib/docker/containers:/var/lib/docker/containers:ro'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+  heartbeat:
+    image: 'docker.elastic.co/beats/heartbeat:7.5.0'
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: 'http://elasticsearch:9200'
+      ELASTICSEARCH_USERNAME: ''
+      ELASTICSEARCH_PASSWORD: ''
+      KIBANA_URL: 'http://kibana:5601'
+    volumes:
+      - type: bind
+        source: ./config/heartbeat/heartbeat.yml
+        target: /usr/share/heartbeat/heartbeat.yml
+      - './config/heartbeat/monitors/:/usr/share/heartbeat/monitors.d/'
+  metricbeat:
+    image: 'docker.elastic.co/beats/metricbeat:7.5.0'
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: 'http://elasticsearch:9200'
+      ELASTICSEARCH_USERNAME: ''
+      ELASTICSEARCH_PASSWORD: ''
+      KIBANA_URL: 'http://kibana:5601'
+    user: root
+    volumes:
+      - type: bind
+        source: ./config/metricbeat/metricbeat.yml
+        target: /usr/share/metricbeat/metricbeat.yml
+      - './config/metricbeat/modules/:/usr/share/metricbeat/modules.d/'
+      - '/var/lib/docker/containers:/var/lib/docker/containers:ro'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - '/proc:/hostfs/proc:ro'
+      - '/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro'
+      - '/:/hostfs:ro'

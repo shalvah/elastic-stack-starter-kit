@@ -1,0 +1,17 @@
+apm-server:
+  host: '0.0.0.0:8200'
+setup:
+  kibana:
+    host: '${KIBANA_URL}'
+  template:
+    enabled: true
+    settings:
+      index:
+        number_of_shards: 1
+        codec: best_compression
+output:
+  elasticsearch:
+    hosts:
+      - '${ELASTICSEARCH_URL}'
+    username: '${ELASTICSEARCH_USERNAME:}'
+    password: '${ELASTICSEARCH_PASSWORD:}'

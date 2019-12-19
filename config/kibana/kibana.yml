@@ -1,0 +1,14 @@
+server:
+  name: kibana-main
+  port: '5601'
+  host: 0.0.0.0
+elasticsearch:
+  hosts:
+    - '${ELASTICSEARCH_URL}'
+  username: '${ELASTICSEARCH_USERNAME:}'
+  password: '${ELASTICSEARCH_PASSWORD:}'
+kibana:
+  index: .kibana
+xpack:
+  security:
+    encryptionKey: 'nction random() { [native code] }nction random() { [native code] }'

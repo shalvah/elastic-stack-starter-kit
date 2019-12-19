@@ -1,0 +1,27 @@
+output:
+  elasticsearch:
+    hosts:
+      - '${ELASTICSEARCH_URL}'
+    username: '${ELASTICSEARCH_USERNAME:}'
+    password: '${ELASTICSEARCH_PASSWORD:}'
+setup:
+  kibana:
+    host: '${KIBANA_URL}'
+metricbeat:
+  config:
+    modules:
+      path: '${path.config}/modules.d/*.yml'
+      reload:
+        enabled: true
+  autodiscover:
+    providers:
+      - type: docker
+        hints:
+          enabled: true
+processors:
+  - add_cloud_metadata: {}
+  - add_host_metadata: {}
+  - add_docker_metadata: {}
+  - add_kubernetes_metadata: {}
+system:
+  hostfs: /hostfs

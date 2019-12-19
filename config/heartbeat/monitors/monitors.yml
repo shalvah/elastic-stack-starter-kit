@@ -1,0 +1,6 @@
+- id: sample-github
+  type: http
+  name: GitHub
+  schedule: '@every 15s'
+  hosts:
+    - github.com
