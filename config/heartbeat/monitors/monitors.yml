@@ -1,6 +1,6 @@
-- id: sample-github
+- id: dotnet-app
   type: http
-  name: GitHub
+  name: eShopOnWeb
   schedule: '@every 15s'
   hosts:
-    - github.com
+    - "http://eshopwebmvc"
