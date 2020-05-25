@@ -1,9 +1,11 @@
-# elastic-stack-starter
+# elastic-stack-starter-kit
+
+Elastic Stack components for observability + web apps to help you get started
 
 Use Docker Compose to launch:
 
 ```bash
- docker-compose --project-name elastic-starter up -d --build
+docker-compose --project-name elastic-starter up -d --build
 ```
 
 This will launch:
@@ -11,8 +13,8 @@ This will launch:
 - a Kibana instance accessible from the Docker network at http://kibana:5601 and from your machine at http://localhost:5601
 - an APM Server instance accessible from the Docker network at http://apm-server:8200 and from your machine at http://localhost:8200
 - an ASP.NEt web app with Elastic APM added, accessible from the DOcker network at http://eshopwebmvc and from your machine at http://localhost:5106
-- [COming soon] a Node.js API
-- a FIlebeat agent that reads logs from all the running DOcker containers, including your app
+- [Coming soon] a Node.js API
+- a FIlebeat agent that reads logs from all the running DOcker containers, including your apps
 - a Heartbeat agent that continually pings your apps (http://eshopwebmvc) for availability
 - [Coming soon] a Metricbeat agent
 
